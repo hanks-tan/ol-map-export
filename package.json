@@ -1,0 +1,28 @@
+{
+  "name": "ol-map-export",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/olMapExport.js",
+  "module": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production",
+    "watch": "webpack --watch"
+  },
+  "keywords": [
+    "openlayers",
+    "export",
+    "png"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ol": "^6.12.0",
+    "print-js": "^1.6.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.67.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.3"
+  }
+}
