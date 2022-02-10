@@ -31,5 +31,5 @@ map.addLayer(vtLayer)
 
 function exportPng() {
   const extent = map.getView().calculateExtent()
-  olMapExport.printMap(map, extent)
+  olMapExport.saveAsPng(map, extent)
 }

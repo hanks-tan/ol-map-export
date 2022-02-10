@@ -33,7 +33,6 @@ function copyCanvas (source, target, options) {
     if (options) {
       const scaleX = matrix[0]
       const scaleY = matrix[3]
-
       target.drawImage(source, options.startX / scaleX, options.startY / scaleY, options.width / scaleX, options.height / scaleY, 0, 0, options.width / scaleX, options.height / scaleY)
     } else {
       target.drawImage(source, 0, 0)
@@ -51,12 +50,7 @@ function renderCompleteEvent (map, options) {
   targetList.forEach((canvas) => {
     copyCanvas(canvas, mapContext, options)
   })
-  const url = mapCanvas.toDataURL()
-  printJS({
-    printable: url,
-    type: 'image',
-    
-  })
+  return mapCanvas.toDataURL()
 }
 
 
@@ -81,16 +75,36 @@ function getClipOptions (map, extent) {
   }
 }
 
-export function printMap (map, extent, canvas) {
+function getImage (map, extent, callback) {
   if (map) {
     map.once('rendercomplete', () => {
       let option
       if (extent) {
         option = getClipOptions(map, extent)
       }
-      renderCompleteEvent(map, option, canvas)
+      const url =renderCompleteEvent(map, option)
+      callback(url)
     })
     map.renderSync()
   }
 }
 
+export function saveAsPng(map, extent, options) {
+  const callback = function (url) {
+    const a = document.createElement('a')
+    a.href = url
+    a.download = options?.name || 'map.png'
+    a.click()
+  }
+  getImage(map, extent, callback)
+}
+
+export function print(map, extent, options) {
+  const callback = function (url) {
+    printJS({
+      printable: url,
+      type: 'image'
+    })
+  }
+  getImage(map, extent, callback)
+}
